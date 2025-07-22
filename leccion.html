@@ -3,317 +3,1075 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecciones de C++</title>
-    <!-- Carga de Tailwind CSS -->
+    <title>Ejercicios de Python</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Un fondo suave */
+            background-color: #f3f4f6; /* Light gray background */
         }
-        .lesson-section {
-            scroll-margin-top: 80px; /* Ajuste para el encabezado fijo */
+        .exercise-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem;
+            margin-bottom: 1rem;
         }
-        pre {
-            background-color: #2d2d2d; /* Color de fondo oscuro para código */
-            color: #f8f8f2; /* Color de texto claro */
+        .code-block {
+            background-color: #e2e8f0; /* bg-gray-200 */
+            border-radius: 0.5rem; /* rounded-lg */
             padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
+            margin-top: 1rem;
             font-family: monospace;
-            font-size: 0.9rem;
+            white-space: pre-wrap; /* Ensures long lines wrap */
+            word-break: break-all; /* Breaks words if necessary */
         }
-        code {
-            font-family: monospace;
-            background-color: #e2e8f0;
-            padding: 0.2em 0.4em;
-            border-radius: 0.25rem;
+        .explanation-block {
+            background-color: #dbeafe; /* bg-blue-100 */
+            border-left: 4px solid #3b82f6; /* border-blue-500 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .filter-button {
+            @apply px-4 py-2 rounded-lg font-semibold transition-colors duration-200;
+        }
+        .filter-button.active {
+            @apply bg-blue-600 text-white shadow-md;
+        }
+        .filter-button:not(.active) {
+            @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
         }
     </style>
 </head>
-<body class="text-gray-800">
-    <!-- Encabezado Fijo -->
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 shadow-lg fixed w-full top-0 z-10 rounded-b-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold">Lecciones de C++</h1>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="#introduccion" class="hover:text-blue-200 transition duration-300">Introducción</a></li>
-                    <li><a href="#conceptos-basicos" class="hover:text-blue-200 transition duration-300">Conceptos Básicos</a></li>
-                    <li><a href="#estructuras-control" class="hover:text-blue-200 transition duration-300">Estructuras de Control</a></li>
-                    <li><a href="#funciones" class="hover:text-blue-200 transition duration-300">Funciones</a></li>
-                    <li><a href="#programacion-orientada-objetos" class="hover:text-blue-200 transition duration-300">POO</a></li>
-                </ul>
-            </nav>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">Ejercicios de Python</h1>
+
+        <!-- Filtros -->
+        <div class="mb-8 p-4 bg-gray-50 rounded-lg shadow-inner">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Filtrar Ejercicios</h2>
+
+            <div class="mb-4">
+                <label for="category-select" class="block text-gray-700 text-lg font-medium mb-2">Categoría:</label>
+                <select id="category-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800">
+                    <option value="all">Todas las Categorías</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-lg font-medium mb-2">Tipo:</label>
+                <div class="flex flex-wrap gap-3">
+                    <button id="type-all" class="filter-button active" data-type="all">Todos</button>
+                    <button id="type-non-math" class="filter-button" data-type="non-mathematical">No Matemáticos</button>
+                    <button id="type-math" class="filter-button" data-type="mathematical">Matemáticos</button>
+                </div>
+            </div>
+
+            <div class="text-center mt-6">
+                <button id="apply-filters" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300">
+                    Aplicar Filtros
+                </button>
+            </div>
         </div>
-    </header>
 
-    <main class="container mx-auto p-6 mt-20"> <!-- Margen superior para el encabezado fijo -->
-        <!-- Sección de Introducción -->
-        <section id="introduccion" class="bg-white p-8 rounded-xl shadow-md mb-8 lesson-section">
-            <h2 class="text-4xl font-extrabold text-blue-700 mb-6">¡Bienvenido a las Lecciones de C++!</h2>
-            <p class="text-lg leading-relaxed mb-4">
-                C++ es un lenguaje de programación potente y versátil, ampliamente utilizado en el desarrollo de software, sistemas operativos, juegos, y aplicaciones de alto rendimiento. Aprender C++ te abrirá las puertas a un mundo de posibilidades en la programación.
-            </p>
-            <p class="text-lg leading-relaxed mb-4">
-                En estas lecciones, cubriremos los fundamentos de C++, desde los conceptos más básicos hasta la programación orientada a objetos. ¡Prepárate para codificar!
-            </p>
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4">¿Por qué aprender C++?</h3>
-            <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
-                <li><strong>Rendimiento:</strong> Permite un control cercano del hardware, ideal para aplicaciones críticas.</li>
-                <li><strong>Versatilidad:</strong> Se usa en una amplia gama de dominios.</li>
-                <li><strong>Base sólida:</strong> Muchos otros lenguajes se basan en conceptos de C++.</li>
-                <li><strong>Comunidad:</strong> Gran cantidad de recursos y una comunidad activa.</li>
-            </ul>
-        </section>
+        <!-- Contenedor de Ejercicios -->
+        <div id="exercises-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Exercises will be loaded here by JavaScript -->
+            <p class="text-center text-gray-600 text-lg col-span-full">Selecciona una categoría o aplica filtros para ver los ejercicios.</p>
+        </div>
+    </div>
 
-        <!-- Sección de Conceptos Básicos -->
-        <section id="conceptos-basicos" class="bg-white p-8 rounded-xl shadow-md mb-8 lesson-section">
-            <h2 class="text-3xl font-bold text-blue-700 mb-6">1. Conceptos Básicos</h2>
-            <p class="text-lg leading-relaxed mb-4">
-                Comenzaremos con la estructura básica de un programa en C++, cómo imprimir mensajes en pantalla y el uso de variables.
-            </p>
+    <script>
+        // Array de objetos para almacenar todos los ejercicios
+        const exercises = [
+            // Variables
+            {
+                id: 'var-001', category: 'Variables', type: 'non-mathematical',
+                question: 'Declara una variable `nombre` con tu nombre y una variable `edad` con tu edad. Luego, imprime un mensaje que diga "Hola, soy [nombre] y tengo [edad] años."',
+                solution: 'nombre = "Ana"\nedad = 30\nprint(f"Hola, soy {nombre} y tengo {edad} años.")',
+                explanation: 'Se utilizan f-strings para formatear la salida de manera concisa, insertando los valores de las variables directamente en la cadena.'
+            },
+            {
+                id: 'var-002', category: 'Variables', type: 'non-mathematical',
+                question: 'Intercambia los valores de dos variables `a` y `b` sin usar una variable temporal.',
+                solution: 'a = 5\nb = 10\na, b = b, a\nprint(f"a: {a}, b: {b}")',
+                explanation: 'Python permite el intercambio de valores de variables de forma concisa utilizando asignación de tuplas.'
+            },
+            {
+                id: 'var-003', category: 'Variables', type: 'mathematical',
+                question: 'Declara una variable `radio` con valor 5. Calcula el área de un círculo ($$\\pi r^2$$) y guárdala en `area`. Imprime el resultado. Usa `math.pi`.',
+                solution: 'import math\nradio = 5\narea = math.pi * (radio ** 2)\nprint(f"El área del círculo es: {area:.2f}")',
+                explanation: 'Se importa el módulo `math` para acceder a la constante `pi`. La exponenciación se realiza con `**`.'
+            },
+            {
+                id: 'var-004', category: 'Variables', type: 'non-mathematical',
+                question: 'Asigna el valor booleano `True` a una variable `es_activo` y el valor `False` a `es_inactivo`. Imprime ambos.',
+                solution: 'es_activo = True\nes_inactivo = False\nprint(f"Activo: {es_activo}, Inactivo: {es_inactivo}")',
+                explanation: 'Las variables booleanas almacenan valores de verdad, `True` o `False`, que son útiles para lógica condicional.'
+            },
+            {
+                id: 'var-005', category: 'Variables', type: 'non-mathematical',
+                question: 'Crea una variable `mensaje` con el texto "Python es divertido". Luego, reasigna `mensaje` para que contenga "¡Y poderoso!". Imprime el valor final de `mensaje`.',
+                solution: 'mensaje = "Python es divertido"\nmensaje = "¡Y poderoso!"\nprint(mensaje)',
+                explanation: 'Las variables en Python pueden ser reasignadas a nuevos valores en cualquier momento, cambiando su contenido.'
+            },
+            {
+                id: 'var-006', category: 'Variables', type: 'mathematical',
+                question: 'Calcula el promedio de tres números: 15, 20 y 25. Guarda el resultado en una variable `promedio` e imprímelo.',
+                solution: 'num1 = 15\nnum2 = 20\nnum3 = 25\npromedio = (num1 + num2 + num3) / 3\nprint(f"El promedio es: {promedio}")',
+                explanation: 'El promedio se calcula sumando todos los números y dividiendo por la cantidad de números.'
+            },
+            {
+                id: 'var-007', category: 'Variables', type: 'non-mathematical',
+                question: 'Crea una variable `saludo` y asígnale el resultado de concatenar las cadenas "Hola" y "Mundo" con un espacio en medio. Imprime `saludo`.',
+                solution: 'saludo = "Hola" + " " + "Mundo"\nprint(saludo)',
+                explanation: 'El operador `+` se utiliza para concatenar (unir) cadenas de texto en Python.'
+            },
+            {
+                id: 'var-008', category: 'Variables', type: 'non-mathematical',
+                question: 'Declara una variable `precio` con valor 99.99 (float) y una variable `cantidad` con valor 3 (int). Calcula el `total` e imprímelo.',
+                solution: 'precio = 99.99\ncantidad = 3\ntotal = precio * cantidad\nprint(f"El total es: {total:.2f}")',
+                explanation: 'La multiplicación entre un float y un int resulta en un float. Se usa formato para dos decimales.'
+            },
+            {
+                id: 'var-009', category: 'Variables', type: 'non-mathematical',
+                question: 'Crea una variable `es_mayor_edad` y asígnale `True` si una `edad` de 18 es mayor o igual a 18, de lo contrario `False`. Imprime `es_mayor_edad`.',
+                solution: 'edad = 18\nes_mayor_edad = (edad >= 18)\nprint(es_mayor_edad)',
+                explanation: 'La expresión `edad >= 18` evalúa a un valor booleano que se asigna directamente a la variable.'
+            },
+            {
+                id: 'var-010', category: 'Variables', type: 'non-mathematical',
+                question: 'Crea una variable `caracter` con el primer carácter de la cadena "Programación". Imprímelo.',
+                solution: 'cadena = "Programación"\ncaracter = cadena[0]\nprint(caracter)',
+                explanation: 'Se accede al primer carácter de una cadena utilizando la indexación `[0]`.'
+            },
 
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Tu primer programa: "Hola Mundo"</h3>
-            <p class="text-lg leading-relaxed mb-4">
-                Todo programa en C++ comienza con la función <code>main()</code>. Aquí te mostramos el clásico "Hola Mundo":
-            </p>
-            <pre><code class="language-cpp">#include &lt;iostream&gt; // Incluye la librería de entrada/salida
+            // Bucles
+            {
+                id: 'loop-001', category: 'Bucles', type: 'non-mathematical',
+                question: 'Usa un bucle `for` para imprimir cada fruta en la lista `frutas = ["manzana", "banana", "cereza"]`.',
+                solution: 'frutas = ["manzana", "banana", "cereza"]\nfor fruta in frutas:\n    print(fruta)',
+                explanation: 'El bucle `for` itera directamente sobre cada elemento de la lista, asignándolo a la variable `fruta` en cada iteración.'
+            },
+            {
+                id: 'loop-002', category: 'Bucles', type: 'mathematical',
+                question: 'Usa un bucle `while` para imprimir los números del 1 al 5.',
+                solution: 'contador = 1\nwhile contador <= 5:\n    print(contador)\n    contador += 1',
+                explanation: 'El bucle `while` continúa ejecutándose mientras la condición `contador <= 5` sea verdadera. Es crucial incrementar el contador para evitar un bucle infinito.'
+            },
+            {
+                id: 'loop-003', category: 'Bucles', type: 'non-mathematical',
+                question: 'Itera sobre una cadena `palabra = "Python"` e imprime cada letra en una línea separada.',
+                solution: 'palabra = "Python"\nfor letra in palabra:\n    print(letra)',
+                explanation: 'Las cadenas en Python son iterables, por lo que un bucle `for` puede recorrer cada carácter individualmente.'
+            },
+            {
+                id: 'loop-004', category: 'Bucles', type: 'mathematical',
+                question: 'Calcula la suma de los números del 1 al 10 usando un bucle `for`.',
+                solution: 'suma = 0\nfor i in range(1, 11):\n    suma += i\nprint(f"La suma es: {suma}")',
+                explanation: 'La función `range(1, 11)` genera números desde 1 hasta 10 (sin incluir el 11). Se acumula la suma en cada iteración.'
+            },
+            {
+                id: 'loop-005', category: 'Bucles', type: 'non-mathematical',
+                question: 'Usa un bucle `for` con `enumerate` para imprimir cada elemento de la lista `colores = ["rojo", "verde", "azul"]` junto con su índice.',
+                solution: 'colores = ["rojo", "verde", "azul"]\nfor indice, color in enumerate(colores):\n    print(f"Índice {indice}: {color}")',
+                explanation: '`enumerate()` permite iterar sobre una secuencia obteniendo tanto el índice como el valor de cada elemento.'
+            },
+            {
+                id: 'loop-006', category: 'Bucles', type: 'non-mathematical',
+                question: 'Pide al usuario que ingrese una contraseña. Usa un bucle `while` para seguir pidiendo hasta que la contraseña sea "secreta".',
+                solution: 'contrasena = ""\nwhile contrasena != "secreta":\n    contrasena = input("Ingrese la contraseña: ")\nprint("¡Contraseña correcta!")',
+                explanation: 'El bucle `while` se repite mientras la contraseña ingresada no coincida con "secreta". `input()` lee la entrada del usuario.'
+            },
+            {
+                id: 'loop-007', category: 'Bucles', type: 'mathematical',
+                question: 'Imprime solo los números pares del 0 al 10 usando un bucle `for` y una condición `if`.',
+                solution: 'for i in range(11):\n    if i % 2 == 0:\n        print(i)',
+                explanation: 'El operador `%` (módulo) devuelve el resto de una división. Si el resto al dividir por 2 es 0, el número es par.'
+            },
+            {
+                id: 'loop-008', category: 'Bucles', type: 'non-mathematical',
+                question: 'Usa un bucle `for` para recorrer un diccionario `persona = {"nombre": "Juan", "edad": 25}` e imprimir sus claves y valores.',
+                solution: 'persona = {"nombre": "Juan", "edad": 25}\nfor clave, valor in persona.items():\n    print(f"{clave}: {valor}")',
+                explanation: 'El método `.items()` de un diccionario devuelve pares clave-valor que se pueden desempaquetar en el bucle `for`.'
+            },
+            {
+                id: 'loop-009', category: 'Bucles', type: 'non-mathematical',
+                question: 'Crea un bucle que imprima números del 1 al 10, pero que se detenga (use `break`) si el número es 7.',
+                solution: 'for i in range(1, 11):\n    if i == 7:\n        break\n    print(i)',
+                explanation: 'La instrucción `break` termina inmediatamente la ejecución del bucle más interno.'
+            },
+            {
+                id: 'loop-010', category: 'Bucles', type: 'non-mathematical',
+                question: 'Crea un bucle que imprima números del 1 al 10, pero que salte (use `continue`) el número 5.',
+                solution: 'for i in range(1, 11):\n    if i == 5:\n        continue\n    print(i)',
+                explanation: 'La instrucción `continue` salta el resto de la iteración actual y pasa a la siguiente iteración del bucle.'
+            },
+            {
+                id: 'loop-011', category: 'Bucles', type: 'mathematical',
+                question: 'Calcula el factorial de un número (por ejemplo, 5) usando un bucle.',
+                solution: 'numero = 5\nfactorial = 1\nfor i in range(1, numero + 1):\n    factorial *= i\nprint(f"El factorial de {numero} es: {factorial}")',
+                explanation: 'El factorial de un número es el producto de todos los enteros positivos desde 1 hasta ese número. Se usa un bucle para multiplicar secuencialmente.'
+            },
+            {
+                id: 'loop-012', category: 'Bucles', type: 'non-mathematical',
+                question: 'Pide al usuario que ingrese palabras hasta que ingrese "fin". Almacena las palabras en una lista y luego imprímelas.',
+                solution: 'palabras = []\nwhile True:\n    palabra = input("Ingresa una palabra (o \'fin\' para terminar): ")\n    if palabra == "fin":\n        break\n    palabras.append(palabra)\nprint("Palabras ingresadas:", palabras)',
+                explanation: 'Se usa un bucle `while True` para un bucle infinito que se rompe (`break`) cuando el usuario ingresa "fin". Las palabras se añaden a una lista.'
+            },
+            {
+                id: 'loop-013', category: 'Bucles', type: 'mathematical',
+                question: 'Imprime la tabla de multiplicar del 7 (del 7x1 al 7x10) usando un bucle `for`.',
+                solution: 'numero = 7\nfor i in range(1, 11):\n    print(f"{numero} x {i} = {numero * i}")',
+                explanation: 'El bucle itera de 1 a 10, y en cada paso, calcula y muestra el producto del número base por el iterador.'
+            },
+            {
+                id: 'loop-014', category: 'Bucles', type: 'non-mathematical',
+                question: 'Dada una lista de nombres `nombres = ["Ana", "Pedro", "María", "Luis"]`, imprime solo los nombres que empiezan con "M".',
+                solution: 'nombres = ["Ana", "Pedro", "María", "Luis"]\nfor nombre in nombres:\n    if nombre.startswith("M"):\n        print(nombre)',
+                explanation: 'El método `startswith()` de las cadenas verifica si una cadena comienza con un prefijo específico.'
+            },
+            {
+                id: 'loop-015', category: 'Bucles', type: 'non-mathematical',
+                question: 'Crea un bucle que recorra los números del 1 al 20. Si el número es divisible por 3, imprime "Fizz". Si es divisible por 5, imprime "Buzz". Si es divisible por ambos, imprime "FizzBuzz". De lo contrario, imprime el número.',
+                solution: 'for i in range(1, 21):\n    if i % 3 == 0 and i % 5 == 0:\n        print("FizzBuzz")\n    elif i % 3 == 0:\n        print("Fizz")\n    elif i % 5 == 0:\n        print("Buzz")\n    else:\n        print(i)',
+                explanation: 'Se usan condiciones `if-elif-else` para verificar la divisibilidad. Es importante verificar la condición de "ambos" primero para que se ejecute correctamente.'
+            },
 
-int main() {
-    std::cout &lt;&lt; "Hola Mundo!" &lt;&lt; std::endl; // Imprime "Hola Mundo!" en la consola
-    return 0; // Indica que el programa terminó correctamente
-}
-</code></pre>
-            <p class="text-lg leading-relaxed mt-4">
-                <ul>
-                    <li><code>#include &lt;iostream&gt;</code>: Incluye la librería estándar de entrada/salida.</li>
-                    <li><code>int main()</code>: La función principal donde comienza la ejecución del programa.</li>
-                    <li><code>std::cout</code>: Se utiliza para imprimir texto en la consola.</li>
-                    <li><code>&lt;&lt;</code>: Operador de inserción, envía el contenido a <code>cout</code>.</li>
-                    <li><code>std::endl</code>: Inserta un salto de línea y vacía el búfer.</li>
-                    <li><code>return 0;</code>: Indica que el programa finalizó sin errores.</li>
-                </ul>
-            </p>
+            // Funciones
+            {
+                id: 'func-001', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `saludar(nombre)` que tome un nombre como argumento e imprima "Hola, [nombre]!".',
+                solution: 'def saludar(nombre):\n    print(f"Hola, {nombre}!")\n\nsaludar("Carlos")',
+                explanation: 'La función `saludar` toma un parámetro `nombre` y lo utiliza dentro de una f-string para construir el mensaje de saludo.'
+            },
+            {
+                id: 'func-002', category: 'Funciones', type: 'mathematical',
+                question: 'Define una función `sumar(a, b)` que tome dos números y devuelva su suma.',
+                solution: 'def sumar(a, b):\n    return a + b\n\nresultado = sumar(10, 5)\nprint(f"La suma es: {resultado}")',
+                explanation: 'La función `sumar` acepta dos argumentos, realiza la operación de suma y devuelve el resultado utilizando la palabra clave `return`.'
+            },
+            {
+                id: 'func-003', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `es_par(numero)` que devuelva `True` si el número es par y `False` en caso contrario.',
+                solution: 'def es_par(numero):\n    return numero % 2 == 0\n\nprint(es_par(4))\nprint(es_par(7))',
+                explanation: 'Un número es par si el resto de su división por 2 es 0. La función devuelve directamente el resultado de esta comparación booleana.'
+            },
+            {
+                id: 'func-004', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `contar_vocales(cadena)` que cuente el número de vocales (a, e, i, o, u, mayúsculas y minúsculas) en una cadena dada.',
+                solution: 'def contar_vocales(cadena):\n    vocales = "aeiouAEIOU"\n    contador = 0\n    for caracter in cadena:\n        if caracter in vocales:\n            contador += 1\n    return contador\n\nprint(contar_vocales("Hola Mundo"))',
+                explanation: 'La función itera sobre la cadena, verificando si cada carácter está presente en una cadena predefinida de vocales. Se usa `in` para la verificación de pertenencia.'
+            },
+            {
+                id: 'func-005', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `invertir_cadena(cadena)` que devuelva la cadena invertida.',
+                solution: 'def invertir_cadena(cadena):\n    return cadena[::-1]\n\nprint(invertir_cadena("Python"))',
+                explanation: 'La rebanada de cadena `[::-1]` es una forma concisa y eficiente de invertir una cadena en Python.'
+            },
+            {
+                id: 'func-006', category: 'Funciones', type: 'mathematical',
+                question: 'Define una función `calcular_area_rectangulo(base, altura)` que calcule y devuelva el área de un rectángulo.',
+                solution: 'def calcular_area_rectangulo(base, altura):\n    return base * altura\n\narea = calcular_area_rectangulo(10, 5)\nprint(f"El área del rectángulo es: {area}")',
+                explanation: 'La función toma la base y la altura como argumentos y devuelve su producto, que es el área del rectángulo.'
+            },
+            {
+                id: 'func-007', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `obtener_primer_elemento(lista)` que devuelva el primer elemento de una lista. Si la lista está vacía, debe devolver `None`.',
+                solution: 'def obtener_primer_elemento(lista):\n    if lista:\n        return lista[0]\n    else:\n        return None\n\nprint(obtener_primer_elemento([1, 2, 3]))\nprint(obtener_primer_elemento([]))',
+                explanation: 'Se verifica si la lista no está vacía (una lista vacía se evalúa como `False` en un contexto booleano) antes de intentar acceder a su primer elemento.'
+            },
+            {
+                id: 'func-008', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `saludo_personalizado(nombre="Invitado")` que use un valor por defecto para el nombre si no se proporciona.',
+                solution: 'def saludo_personalizado(nombre="Invitado"):\n    print(f"Hola, {nombre}!")\n\nsaludo_personalizado("Marta")\nsaludo_personalizado()',
+                explanation: 'Al asignar un valor por defecto en la definición de la función, el parámetro se vuelve opcional. Si no se pasa un argumento, se usa el valor por defecto.'
+            },
+            {
+                id: 'func-009', category: 'Funciones', type: 'mathematical',
+                question: 'Define una función `potencia(base, exponente)` que calcule la potencia de un número sin usar el operador `**` ni `math.pow`.',
+                solution: 'def potencia(base, exponente):\n    resultado = 1\n    for _ in range(exponente):\n        resultado *= base\n    return resultado\n\nprint(potencia(2, 3))',
+                explanation: 'La función multiplica la base por sí misma `exponente` veces en un bucle. El `_` se usa como variable de bucle cuando el valor no es necesario.'
+            },
+            {
+                id: 'func-010', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `filtrar_palabras_largas(lista_palabras, longitud_minima)` que devuelva una nueva lista con palabras cuya longitud sea mayor o igual a `longitud_minima`.',
+                solution: 'def filtrar_palabras_largas(lista_palabras, longitud_minima):\n    palabras_filtradas = []\n    for palabra in lista_palabras:\n        if len(palabra) >= longitud_minima:\n            palabras_filtradas.append(palabra)\n    return palabras_filtradas\n\npalabras = ["casa", "perro", "elefante", "sol"]\nprint(filtrar_palabras_largas(palabras, 5))',
+                explanation: 'La función itera sobre la lista de palabras y utiliza `len()` para verificar la longitud de cada palabra antes de añadirla a la nueva lista.'
+            },
+            {
+                id: 'func-011', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `unir_cadenas(*args)` que tome un número variable de cadenas y las una en una sola, separadas por un espacio.',
+                solution: 'def unir_cadenas(*args):\n    return " ".join(args)\n\nprint(unir_cadenas("Hola", "esto", "es", "una", "prueba"))',
+                explanation: '`*args` permite que la función acepte un número arbitrario de argumentos posicionales, que se recogen en una tupla. El método `join()` es ideal para unir elementos de un iterable.'
+            },
+            {
+                id: 'func-012', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `crear_perfil(**kwargs)` que tome argumentos de palabra clave y los imprima como un perfil de usuario.',
+                solution: 'def crear_perfil(**kwargs):\n    print("--- Perfil de Usuario ---")\n    for clave, valor in kwargs.items():\n        print(f"{clave.replace(\'_\', \' \').title()}: {valor}")\n\ncrear_perfil(nombre="Elena", edad=28, ciudad="Madrid", ocupacion="Diseñadora")',
+                explanation: '`**kwargs` permite que la función acepte un número arbitrario de argumentos de palabra clave, que se recogen en un diccionario. Se itera sobre los ítems del diccionario para imprimir el perfil.'
+            },
+            {
+                id: 'func-013', category: 'Funciones', type: 'mathematical',
+                question: 'Define una función `es_primo(numero)` que devuelva `True` si un número es primo y `False` en caso contrario.',
+                solution: 'def es_primo(numero):\n    if numero < 2:\n        return False\n    for i in range(2, int(numero**0.5) + 1):\n        if numero % i == 0:\n            return False\n    return True\n\nprint(es_primo(7))\nprint(es_primo(10))',
+                explanation: 'Un número primo es mayor que 1 y solo es divisible por 1 y por sí mismo. La optimización es verificar divisores solo hasta la raíz cuadrada del número.'
+            },
+            {
+                id: 'func-014', category: 'Funciones', type: 'non-mathematical',
+                question: 'Define una función `aplicar_funcion_a_lista(lista, funcion)` que tome una lista y una función, y devuelva una nueva lista con el resultado de aplicar la función a cada elemento.',
+                solution: 'def aplicar_funcion_a_lista(lista, funcion):\n    resultados = []\n    for elemento in lista:\n        resultados.append(funcion(elemento))\n    return resultados\n\ndef duplicar(x):\n    return x * 2\n\nmi_lista = [1, 2, 3]\nprint(aplicar_funcion_a_lista(mi_lista, duplicar))',
+                explanation: 'Las funciones en Python son objetos de primera clase y pueden pasarse como argumentos a otras funciones. La función `aplicar_funcion_a_lista` itera y aplica la función proporcionada.'
+            },
+            {
+                id: 'func-015', category: 'Funciones', type: 'non-mathematical',
+                question: 'Crea una función lambda que multiplique un número por 10 y úsala.',
+                solution: 'multiplicar_por_diez = lambda x: x * 10\nprint(multiplicar_por_diez(5))',
+                explanation: 'Las funciones lambda son pequeñas funciones anónimas que pueden tener cualquier número de argumentos, pero solo una expresión. Son útiles para operaciones simples.'
+            },
 
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4 mt-8">Variables y Tipos de Datos</h3>
-            <p class="text-lg leading-relaxed mb-4">
-                Las variables son contenedores para almacenar datos. C++ es un lenguaje tipado, lo que significa que debes especificar el tipo de dato que almacenará una variable.
-            </p>
-            <ul class="list-disc list-inside text-lg leading-relaxed space-y-2 mb-4">
-                <li><code>int</code>: Números enteros (ej. 10, -5).</li>
-                <li><code>double</code>: Números de punto flotante (ej. 3.14, -0.5).</li>
-                <li><code>char</code>: Un solo carácter (ej. 'A', 'b').</li>
-                <li><code>bool</code>: Valores booleanos (<code>true</code> o <code>false</code>).</li>
-                <li><code>std::string</code>: Secuencias de caracteres (texto).</li>
-            </ul>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;string&gt; // Necesario para std::string
+            // Cadenas
+            {
+                id: 'str-001', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Dada la cadena `texto = "Python es genial"`, obtén la subcadena "es genial".',
+                solution: 'texto = "Python es genial"\nsubcadena = texto[7:]\nprint(subcadena)',
+                explanation: 'El rebanado de cadenas `[inicio:fin]` permite extraer subcadenas. Si se omite `fin`, va hasta el final de la cadena.'
+            },
+            {
+                id: 'str-002', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Convierte la cadena `nombre = "juan perez"` a mayúsculas.',
+                solution: 'nombre = "juan perez"\nnombre_mayusculas = nombre.upper()\nprint(nombre_mayusculas)',
+                explanation: 'El método `upper()` devuelve una copia de la cadena con todos sus caracteres convertidos a mayúsculas.'
+            },
+            {
+                id: 'str-003', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Reemplaza todas las ocurrencias de "a" por "o" en la cadena `frase = "banana"`.',
+                solution: 'frase = "banana"\nnueva_frase = frase.replace("a", "o")\nprint(nueva_frase)',
+                explanation: 'El método `replace()` devuelve una nueva cadena donde todas las ocurrencias de una subcadena son reemplazadas por otra.'
+            },
+            {
+                id: 'str-004', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Elimina los espacios en blanco al principio y al final de la cadena `cadena = "   Hola Mundo   "`.',
+                solution: 'cadena = "   Hola Mundo   "\ncadena_limpia = cadena.strip()\nprint(cadena_limpia)',
+                explanation: 'El método `strip()` elimina los caracteres de espacio en blanco (o los caracteres especificados) del principio y del final de una cadena.'
+            },
+            {
+                id: 'str-005', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Verifica si la cadena `email = "usuario@ejemplo.com"` termina con ".com".',
+                solution: 'email = "usuario@ejemplo.com"\ntermina_com = email.endswith(".com")\nprint(termina_com)',
+                explanation: 'El método `endswith()` devuelve `True` si la cadena termina con la subcadena especificada, de lo contrario `False`.'
+            },
+            {
+                id: 'str-006', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Cuenta cuántas veces aparece la letra "o" en la cadena `palabra = "otorrinolaringologo"`.',
+                solution: 'palabra = "otorrinolaringologo"\nconteo_o = palabra.count("o")\nprint(conteo_o)',
+                explanation: 'El método `count()` devuelve el número de veces que una subcadena aparece en la cadena.'
+            },
+            {
+                id: 'str-007', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Une los elementos de la lista `partes = ["Hola", "mundo", "Python"]` en una sola cadena separada por guiones.',
+                solution: 'partes = ["Hola", "mundo", "Python"]\ncadena_unida = "-".join(partes)\nprint(cadena_unida)',
+                explanation: 'El método `join()` se utiliza en una cadena (el separador) para unir los elementos de un iterable en una sola cadena.'
+            },
+            {
+                id: 'str-008', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Formatea un mensaje usando f-strings para mostrar el nombre "Laura" y la edad 28: "Me llamo Laura y tengo 28 años."',
+                solution: 'nombre = "Laura"\nedad = 28\nmensaje = f"Me llamo {nombre} y tengo {edad} años."\nprint(mensaje)',
+                explanation: 'Las f-strings (formatted string literals) permiten incrustar expresiones de Python dentro de cadenas de texto prefijándolas con `f`.'
+            },
+            {
+                id: 'str-009', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Verifica si la cadena `texto = "12345"` contiene solo dígitos.',
+                solution: 'texto = "12345"\nes_digito = texto.isdigit()\nprint(es_digito)',
+                explanation: 'El método `isdigit()` devuelve `True` si todos los caracteres de la cadena son dígitos y hay al menos un carácter, de lo contrario `False`.'
+            },
+            {
+                id: 'str-010', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Convierte la primera letra de cada palabra en la cadena `titulo = "el quijote de la mancha"` a mayúscula.',
+                solution: 'titulo = "el quijote de la mancha"\ntitulo_formateado = titulo.title()\nprint(titulo_formateado)',
+                explanation: 'El método `title()` convierte la primera letra de cada palabra en mayúscula y el resto a minúscula.'
+            },
+            {
+                id: 'str-011', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Dada la cadena `ruta = "/usr/local/bin/python"`, extrae el nombre del archivo "python".',
+                solution: 'import os\nruta = "/usr/local/bin/python"\nnombre_archivo = os.path.basename(ruta)\nprint(nombre_archivo)',
+                explanation: 'El módulo `os.path` proporciona funciones para manipular rutas de archivos. `basename()` devuelve el componente final de una ruta.'
+            },
+            {
+                id: 'str-012', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Verifica si la cadena `identificador = "mi_variable"` es un identificador válido en Python (alfanumérica o guion bajo).',
+                solution: 'identificador = "mi_variable"\nes_valido = identificador.isidentifier()\nprint(es_valido)',
+                explanation: 'El método `isidentifier()` devuelve `True` si la cadena es un identificador válido de Python según las reglas del lenguaje.'
+            },
+            {
+                id: 'str-013', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Dada la cadena `datos = "Nombre: Juan, Edad: 30"`, extrae el nombre y la edad usando `split()` y manipulación de cadenas.',
+                solution: 'datos = "Nombre: Juan, Edad: 30"\npartes = datos.split(", ")\nnombre_parte = partes[0].split(": ")[1]\nedad_parte = partes[1].split(": ")[1]\nprint(f"Nombre: {nombre_parte}, Edad: {edad_parte}")',
+                explanation: 'Se usa `split()` para dividir la cadena por el delimitador principal (", ") y luego nuevamente para extraer los valores después de los dos puntos.'
+            },
+            {
+                id: 'str-014', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Alinea la cadena "Centro" en el centro de un campo de 20 caracteres, rellenando con asteriscos.',
+                solution: 'cadena = "Centro"\ncadena_centrada = cadena.center(20, "*")\nprint(cadena_centrada)',
+                explanation: 'El método `center()` devuelve una cadena centrada en un campo de ancho dado, rellenando con el carácter especificado (por defecto, espacio).'
+            },
+            {
+                id: 'str-015', category: 'Cadenas', type: 'non-mathematical',
+                question: 'Verifica si la cadena `texto = "hola mundo"` está en minúsculas.',
+                solution: 'texto = "hola mundo"\nes_minusculas = texto.islower()\nprint(es_minusculas)',
+                explanation: 'El método `islower()` devuelve `True` si todos los caracteres alfabéticos de la cadena están en minúsculas y hay al menos un carácter alfabético, de lo contrario `False`.'
+            },
 
-int main() {
-    int edad = 30;
-    double precio = 19.99;
-    char inicial = 'J';
-    bool esActivo = true;
-    std::string nombre = "Juan Perez";
+            // Listas
+            {
+                id: 'list-001', category: 'Listas', type: 'non-mathematical',
+                question: 'Crea una lista `numeros = [1, 2, 3, 4, 5]`. Añade el número 6 al final y luego elimina el número 3.',
+                solution: 'numeros = [1, 2, 3, 4, 5]\nnumeros.append(6)\nnumeros.remove(3)\nprint(numeros)',
+                explanation: '`append()` añade un elemento al final. `remove()` elimina la primera ocurrencia del valor especificado.'
+            },
+            {
+                id: 'list-002', category: 'Listas', type: 'non-mathematical',
+                question: 'Dada la lista `colores = ["rojo", "verde", "azul"]`, inserta "amarillo" en la segunda posición (índice 1).',
+                solution: 'colores = ["rojo", "verde", "azul"]\ncolores.insert(1, "amarillo")\nprint(colores)',
+                explanation: 'El método `insert()` añade un elemento en una posición específica de la lista sin reemplazar el elemento existente.'
+            },
+            {
+                id: 'list-003', category: 'Listas', type: 'mathematical',
+                question: 'Encuentra el valor máximo y mínimo en la lista `valores = [10, 50, 20, 80, 30]`.',
+                solution: 'valores = [10, 50, 20, 80, 30]\nmax_valor = max(valores)\nmin_valor = min(valores)\nprint(f"Máximo: {max_valor}, Mínimo: {min_valor}")',
+                explanation: 'Las funciones incorporadas `max()` y `min()` se utilizan para encontrar el valor más grande y más pequeño en una lista, respectivamente.'
+            },
+            {
+                id: 'list-004', category: 'Listas', type: 'non-mathematical',
+                question: 'Crea una lista `pares = [i for i in range(10) if i % 2 == 0]` usando una lista por comprensión. Imprímela.',
+                solution: 'pares = [i for i in range(10) if i % 2 == 0]\nprint(pares)',
+                explanation: 'Las listas por comprensión ofrecen una forma concisa de crear listas. Aquí, se incluyen solo los números pares dentro del rango.'
+            },
+            {
+                id: 'list-005', category: 'Listas', type: 'non-mathematical',
+                question: 'Invierte el orden de los elementos en la lista `letras = ["a", "b", "c", "d"]`.',
+                solution: 'letras = ["a", "b", "c", "d"]\nletras.reverse()\nprint(letras)',
+                explanation: 'El método `reverse()` invierte el orden de los elementos de la lista en su lugar (modifica la lista original).'
+            },
+            {
+                id: 'list-006', category: 'Listas', type: 'non-mathematical',
+                question: 'Dada una lista de nombres `nombres = ["Juan", "Ana", "Pedro"]`, ordénala alfabéticamente.',
+                solution: 'nombres = ["Juan", "Ana", "Pedro"]\nnombres.sort()\nprint(nombres)',
+                explanation: 'El método `sort()` ordena los elementos de la lista en su lugar. Por defecto, ordena alfabéticamente para cadenas y numéricamente para números.'
+            },
+            {
+                id: 'list-007', category: 'Listas', type: 'non-mathematical',
+                question: 'Copia la lista `original = [1, 2, 3]` a una nueva lista `copia` sin que `copia` sea una referencia a `original`.',
+                solution: 'original = [1, 2, 3]\ncopia = original.copy()\n# o copia = list(original)\n# o copia = original[:]\nprint(copia)\noriginal.append(4)\nprint(original, copia)',
+                explanation: 'El método `copy()` crea una copia superficial de la lista. Esto asegura que los cambios en una lista no afecten a la otra.'
+            },
+            {
+                id: 'list-008', category: 'Listas', type: 'non-mathematical',
+                question: 'Combina dos listas `lista1 = [1, 2]` y `lista2 = [3, 4]` en una nueva lista `lista_combinada`.',
+                solution: 'lista1 = [1, 2]\nlista2 = [3, 4]\nlista_combinada = lista1 + lista2\nprint(lista_combinada)',
+                explanation: 'El operador `+` se puede usar para concatenar listas, creando una nueva lista con los elementos de ambas.'
+            },
+            {
+                id: 'list-009', category: 'Listas', type: 'non-mathematical',
+                question: 'Verifica si el elemento "manzana" está presente en la lista `frutas = ["banana", "manzana", "uva"]`.',
+                solution: 'frutas = ["banana", "manzana", "uva"]\nesta_presente = "manzana" in frutas\nprint(esta_presente)',
+                explanation: 'El operador `in` se utiliza para verificar la pertenencia de un elemento en una secuencia como una lista.'
+            },
+            {
+                id: 'list-010', category: 'Listas', type: 'non-mathematical',
+                question: 'Dada una lista anidada `matriz = [[1, 2], [3, 4]]`, accede al elemento 4.',
+                solution: 'matriz = [[1, 2], [3, 4]]\nelemento = matriz[1][1]\nprint(elementos)',
+                explanation: 'Para acceder a elementos en listas anidadas, se usa doble indexación: primero para la lista interna y luego para el elemento dentro de esa lista.'
+            },
+            {
+                id: 'list-011', category: 'Listas', type: 'mathematical',
+                question: 'Calcula la suma de todos los números en la lista `numeros = [10, 20, 30]`.',
+                solution: 'numeros = [10, 20, 30]\nsuma_total = sum(numeros)\nprint(suma_total)',
+                explanation: 'La función incorporada `sum()` calcula la suma de todos los elementos numéricos en un iterable.'
+            },
+            {
+                id: 'list-012', category: 'Listas', type: 'non-mathematical',
+                question: 'Dada la lista `elementos = ["a", "b", "c", "b", "a"]`, cuenta cuántas veces aparece "b".',
+                solution: 'elementos = ["a", "b", "c", "b", "a"]\nconteo_b = elementos.count("b")\nprint(conteo_b)',
+                explanation: 'El método `count()` de las listas devuelve el número de veces que un elemento específico aparece en la lista.'
+            },
+            {
+                id: 'list-013', category: 'Listas', type: 'non-mathematical',
+                question: 'Elimina el último elemento de la lista `pila = [1, 2, 3]` y guárdalo en una variable.',
+                solution: 'pila = [1, 2, 3]\nelemento_eliminado = pila.pop()\nprint(f"Lista: {pila}, Elemento eliminado: {elemento_eliminado}")',
+                explanation: 'El método `pop()` elimina y devuelve el último elemento de la lista. Si se proporciona un índice, elimina el elemento en esa posición.'
+            },
+            {
+                id: 'list-014', category: 'Listas', type: 'non-mathematical',
+                question: 'Extiende la lista `lista_base = [1, 2]` con los elementos de `nuevos_elementos = [3, 4, 5]`.',
+                solution: 'lista_base = [1, 2]\nnuevos_elementos = [3, 4, 5]\nlista_base.extend(nuevos_elementos)\nprint(lista_base)',
+                explanation: 'El método `extend()` añade los elementos de un iterable (como otra lista) al final de la lista actual. A diferencia de `append()`, añade cada elemento individualmente.'
+            },
+            {
+                id: 'list-015', category: 'Listas', type: 'non-mathematical',
+                question: 'Dada la lista `mi_lista = ["perro", "gato", "elefante", "raton"]`, elimina el elemento "gato" por su valor.',
+                solution: 'mi_lista = ["perro", "gato", "elefante", "raton"]\nmi_lista.remove("gato")\nprint(mi_lista)',
+                explanation: 'El método `remove()` elimina la primera aparición del valor especificado de la lista.'
+            },
 
-    std::cout &lt;&lt; "Nombre: " &lt;&lt; nombre &lt;&lt; std::endl;
-    std::cout &lt;&lt; "Edad: " &lt;&lt; edad &lt;&lt; std::endl;
-    std::cout &lt;&lt; "Precio: " &lt;&lt; precio &lt;&lt; std::endl;
-    std::cout &lt;&lt; "Inicial: " &lt;&lt; inicial &lt;&lt; std::endl;
-    std::cout &lt;&lt; "Activo: " &lt;&lt; esActivo &lt;&lt; std::endl; // true se imprime como 1, false como 0
+            // Diccionarios
+            {
+                id: 'dict-001', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Crea un diccionario `persona` con claves "nombre", "edad" y "ciudad" y valores "Juan", 30 y "Madrid" respectivamente.',
+                solution: 'persona = {"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}\nprint(persona)',
+                explanation: 'Los diccionarios se definen con llaves `{}` y almacenan pares clave-valor, donde las claves son únicas.'
+            },
+            {
+                id: 'dict-002', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Accede al valor de la clave "edad" en el diccionario `persona = {"nombre": "Ana", "edad": 25}`.',
+                solution: 'persona = {"nombre": "Ana", "edad": 25}\nedad = persona["edad"]\nprint(edad)',
+                explanation: 'Se accede a los valores de un diccionario usando corchetes `[]` con la clave correspondiente.'
+            },
+            {
+                id: 'dict-003', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Añade una nueva clave "ocupacion" con valor "Ingeniero" al diccionario `persona = {"nombre": "Pedro"}`.',
+                solution: 'persona = {"nombre": "Pedro"}\npersona["ocupacion"] = "Ingeniero"\nprint(persona)',
+                explanation: 'Para añadir un nuevo par clave-valor, se asigna un valor a una nueva clave utilizando la sintaxis de corchetes.'
+            },
+            {
+                id: 'dict-004', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Elimina la clave "ciudad" del diccionario `datos = {"nombre": "Luis", "edad": 40, "ciudad": "Barcelona"}`.',
+                solution: 'datos = {"nombre": "Luis", "edad": 40, "ciudad": "Barcelona"}\ndel datos["ciudad"]\nprint(datos)',
+                explanation: 'La palabra clave `del` se utiliza para eliminar un par clave-valor específico de un diccionario.'
+            },
+            {
+                id: 'dict-005', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Itera sobre el diccionario `items = {"a": 1, "b": 2, "c": 3}` e imprime solo las claves.',
+                solution: 'items = {"a": 1, "b": 2, "c": 3}\nfor clave in items:\n    print(clave)',
+                explanation: 'Al iterar directamente sobre un diccionario en un bucle `for`, se obtienen sus claves por defecto.'
+            },
+            {
+                id: 'dict-006', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Itera sobre el diccionario `productos = {"pan": 2.5, "leche": 1.2}` e imprime solo los valores.',
+                solution: 'productos = {"pan": 2.5, "leche": 1.2}\nfor valor in productos.values():\n    print(valor)',
+                explanation: 'El método `values()` de un diccionario devuelve una vista de todos los valores, permitiendo iterar sobre ellos.'
+            },
+            {
+                id: 'dict-007', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Verifica si la clave "email" existe en el diccionario `usuario = {"nombre": "Maria", "id": 123}`.',
+                solution: 'usuario = {"nombre": "Maria", "id": 123}\nexiste_email = "email" in usuario\nprint(existe_email)',
+                explanation: 'El operador `in` se puede usar para verificar si una clave está presente en un diccionario.'
+            },
+            {
+                id: 'dict-008', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Obtén el valor de la clave "pais" del diccionario `direccion = {"calle": "Calle Sol", "numero": 10}`. Si no existe, devuelve "Desconocido".',
+                solution: 'direccion = {"calle": "Calle Sol", "numero": 10}\npais = direccion.get("pais", "Desconocido")\nprint(pais)',
+                explanation: 'El método `get()` permite obtener un valor por clave, y opcionalmente, proporcionar un valor por defecto si la clave no se encuentra, evitando errores.'
+            },
+            {
+                id: 'dict-009', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Crea un diccionario donde las claves sean números del 1 al 3 y los valores sean sus cuadrados, usando una comprensión de diccionario.',
+                solution: 'cuadrados = {x: x**2 for x in range(1, 4)}\nprint(cuadrados)',
+                explanation: 'Las comprensiones de diccionario (`{clave: valor for item in iterable}`) son una forma concisa de crear diccionarios.'
+            },
+            {
+                id: 'dict-010', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Combina dos diccionarios `d1 = {"a": 1, "b": 2}` y `d2 = {"c": 3, "d": 4}` en un nuevo diccionario.',
+                solution: 'd1 = {"a": 1, "b": 2}\nd2 = {"c": 3, "d": 4}\nd_combinado = {**d1, **d2}\n# o d_combinado = d1.copy()\n# d_combinado.update(d2)\nprint(d_combinado)',
+                explanation: 'El operador `**` (desempaquetado de diccionario) es una forma concisa de fusionar diccionarios en Python 3.5+.'
+            },
+            {
+                id: 'dict-011', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Dada una lista de tuplas `lista_tuplas = [("clave1", 10), ("clave2", 20)]`, conviértela en un diccionario.',
+                solution: 'lista_tuplas = [("clave1", 10), ("clave2", 20)]\ndiccionario = dict(lista_tuplas)\nprint(diccionario)',
+                explanation: 'La función `dict()` puede construir un diccionario a partir de una lista de tuplas donde cada tupla es un par (clave, valor).'
+            },
+            {
+                id: 'dict-012', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Actualiza el valor de la clave "edad" a 35 en el diccionario `perfil = {"nombre": "Carlos", "edad": 30}`.',
+                solution: 'perfil = {"nombre": "Carlos", "edad": 30}\nperfil["edad"] = 35\nprint(perfil)',
+                explanation: 'Para actualizar el valor de una clave existente, simplemente se asigna un nuevo valor a esa clave utilizando la sintaxis de corchetes.'
+            },
+            {
+                id: 'dict-013', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Crea un diccionario a partir de dos listas: `claves = ["a", "b", "c"]` y `valores = [1, 2, 3]`.',
+                solution: 'claves = ["a", "b", "c"]\nvalores = [1, 2, 3]\ndiccionario = dict(zip(claves, valores))\nprint(diccionario)',
+                explanation: 'La función `zip()` combina elementos de las dos listas en pares, y `dict()` luego convierte estos pares en un diccionario.'
+            },
+            {
+                id: 'dict-014', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Elimina y devuelve el par clave-valor de "ciudad" del diccionario `info = {"nombre": "Elena", "ciudad": "Sevilla"}`.',
+                solution: 'info = {"nombre": "Elena", "ciudad": "Sevilla"}\nciudad_eliminada = info.pop("ciudad")\nprint(f"Diccionario: {info}, Ciudad eliminada: {ciudad_eliminada}")',
+                explanation: 'El método `pop()` de los diccionarios elimina la clave especificada y devuelve su valor. Si la clave no existe, se puede especificar un valor por defecto para evitar un error.'
+            },
+            {
+                id: 'dict-015', category: 'Diccionarios', type: 'non-mathematical',
+                question: 'Dada una lista de diccionarios `libros = [{"titulo": "Python Crash Course", "autor": "Eric Matthes"}, {"titulo": "Fluent Python", "autor": "Luciano Ramalho"}]`, imprime el título de cada libro.',
+                solution: 'libros = [{"titulo": "Python Crash Course", "autor": "Eric Matthes"}, {"titulo": "Fluent Python", "autor": "Luciano Ramalho"}]\nfor libro in libros:\n    print(libro["titulo"])',
+                explanation: 'Se itera sobre la lista de diccionarios, y en cada iteración, se accede al valor de la clave "titulo" de cada diccionario.'
+            },
 
-    return 0;
-}
-</code></pre>
-        </section>
+            // Manejo de Errores
+            {
+                id: 'err-001', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Escribe un bloque `try-except` para manejar un `ZeroDivisionError` al intentar dividir 10 por 0.',
+                solution: 'try:\n    resultado = 10 / 0\n    print(resultado)\nexcept ZeroDivisionError:\n    print("¡Error: No se puede dividir por cero!")',
+                explanation: 'El bloque `try` contiene el código que puede causar un error. Si ocurre un `ZeroDivisionError`, el código dentro del bloque `except` se ejecuta.'
+            },
+            {
+                id: 'err-002', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Escribe un bloque `try-except` para manejar un `ValueError` al intentar convertir la cadena "abc" a un entero.',
+                solution: 'try:\n    numero = int("abc")\n    print(numero)\nexcept ValueError:\n    print("¡Error: No se puede convertir a entero!")',
+                explanation: 'La función `int()` lanza un `ValueError` si la cadena no puede ser convertida a un entero válido. El bloque `except ValueError` captura este error.'
+            },
+            {
+                id: 'err-003', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Usa `try-except-else` para imprimir "Operación exitosa" si no hay error al dividir 10 por 2, y "Error" si lo hay.',
+                solution: 'try:\n    resultado = 10 / 2\n    print(resultado)\nexcept ZeroDivisionError:\n    print("Error: División por cero.")\nelse:\n    print("Operación exitosa.")',
+                explanation: 'El bloque `else` en `try-except-else` se ejecuta solo si no se produce ninguna excepción en el bloque `try`.'
+            },
+            {
+                id: 'err-004', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Usa `try-except-finally` para asegurar que un mensaje "Finalizando operación" siempre se imprima, incluso si hay un error.',
+                solution: 'try:\n    # Simula un error\n    # resultado = 10 / 0\n    resultado = 10 / 2 # Sin error\n    print(resultado)\nexcept ZeroDivisionError:\n    print("Error: División por cero.")\nfinally:\n    print("Finalizando operación.")',
+                explanation: 'El bloque `finally` se ejecuta siempre, independientemente de si se produjo una excepción o si fue manejada.'
+            },
+            {
+                id: 'err-005', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Crea una función que pida un número al usuario y use manejo de errores para asegurarse de que la entrada sea un entero válido. Sigue pidiendo hasta que sea válido.',
+                solution: 'def pedir_entero():\n    while True:\n        try:\n            numero = int(input("Ingrese un número entero: "))\n            return numero\n        except ValueError:\n            print("Entrada inválida. Por favor, ingrese un número entero.")\n\nmi_numero = pedir_entero()\nprint(f"Número ingresado: {mi_numero}")',
+                explanation: 'El bucle `while True` continúa hasta que se ingrese un entero válido, momento en el que la función devuelve el número y el bucle se rompe.'
+            },
+            {
+                id: 'err-006', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Maneja múltiples tipos de excepciones (`ValueError` y `TypeError`) en un solo bloque `except`.',
+                solution: 'try:\n    # Ejemplo 1: TypeError\n    # resultado = "hola" + 5\n    \n    # Ejemplo 2: ValueError\n    # numero = int("xyz")\n    \n    # Ejemplo 3: Sin error\n    resultado = 10 + 5\n    print(resultado)\nexcept (ValueError, TypeError) as e:\n    print(f"Se ha producido un error: {e}")',
+                explanation: 'Se pueden manejar múltiples excepciones especificándolas como una tupla después de `except`. La variable `e` captura el objeto de excepción.'
+            },
+            {
+                id: 'err-007', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Lanza una excepción `ValueError` personalizada si un número es negativo dentro de una función.',
+                solution: 'def procesar_numero(numero):\n    if numero < 0:\n        raise ValueError("El número no puede ser negativo.")\n    print(f"Número procesado: {numero}")\n\ntry:\n    procesar_numero(-5)\nexcept ValueError as e:\n    print(f"Error: {e}")\n\ntry:\n    procesar_numero(10)\nexcept ValueError as e:\n    print(f"Error: {e}")',
+                explanation: 'La palabra clave `raise` se utiliza para lanzar una excepción explícitamente. Se puede incluir un mensaje para describir el error.'
+            },
+            {
+                id: 'err-008', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Maneja un `FileNotFoundError` al intentar abrir un archivo que no existe.',
+                solution: 'try:\n    with open("archivo_no_existe.txt", "r") as f:\n        contenido = f.read()\n        print(contenido)\nexcept FileNotFoundError:\n    print("Error: El archivo no fue encontrado.")',
+                explanation: 'El bloque `try` intenta abrir el archivo. Si el archivo no existe, se lanza un `FileNotFoundError`, que es capturado por el bloque `except`.'
+            },
+            {
+                id: 'err-009', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Maneja una `IndexError` al intentar acceder a un índice fuera de rango en una lista.',
+                solution: 'mi_lista = [1, 2, 3]\ntry:\n    elemento = mi_lista[5]\n    print(elemento)\nexcept IndexError:\n    print("Error: El índice está fuera de rango.")',
+                explanation: 'Acceder a un índice que no existe en una lista lanza un `IndexError`. El bloque `except` captura este error y permite que el programa continúe.'
+            },
+            {
+                id: 'err-010', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Maneja una excepción genérica `Exception` para capturar cualquier tipo de error.',
+                solution: 'try:\n    # Simula un error de división por cero\n    # resultado = 10 / 0\n    \n    # Simula un error de tipo\n    # resultado = "abc" + 123\n\n    # Sin error\n    resultado = 10 + 20\n    print(resultado)\nexcept Exception as e:\n    print(f"Se ha producido un error inesperado: {e}")',
+                explanation: 'Capturar `Exception` es útil para atrapar cualquier tipo de error no especificado, pero a menudo es mejor capturar excepciones más específicas para un manejo más preciso.'
+            },
+            {
+                id: 'err-011', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Crea una función que intente leer un archivo. Si el archivo no existe, debe imprimir un mensaje y devolver una cadena vacía.',
+                solution: 'def leer_archivo_seguro(nombre_archivo):\n    try:\n        with open(nombre_archivo, "r") as f:\n            contenido = f.read()\n        return contenido\n    except FileNotFoundError:\n        print(f"Advertencia: El archivo \'{nombre_archivo}\' no fue encontrado.")\n        return ""\n\ncontenido1 = leer_archivo_seguro("archivo_existente.txt") # Asume que este archivo existe o crea uno temporal\ncontenido2 = leer_archivo_seguro("archivo_que_no_existe.txt")',
+                explanation: 'La función usa `try-except` para manejar `FileNotFoundError`. Si el error ocurre, imprime una advertencia y devuelve una cadena vacía en lugar de detener el programa.'
+            },
+            {
+                id: 'err-012', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Define una función que reciba dos números y realice una división. Si el segundo número es cero, lanza un `ValueError` con un mensaje específico.',
+                solution: 'def division_segura(dividendo, divisor):\n    if divisor == 0:\n        raise ValueError("El divisor no puede ser cero.")\n    return dividendo / divisor\n\ntry:\n    print(division_segura(10, 2))\n    print(division_segura(10, 0))\nexcept ValueError as e:\n    print(f"Error en la división: {e}")',
+                explanation: 'Se lanza una excepción `ValueError` explícitamente si la condición de división por cero se cumple, proporcionando un mensaje claro al usuario.'
+            },
+            {
+                id: 'err-013', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Maneja un `KeyError` al intentar acceder a una clave que no existe en un diccionario.',
+                solution: 'mi_diccionario = {"a": 1, "b": 2}\ntry:\n    valor = mi_diccionario["c"]\n    print(valor)\nexcept KeyError:\n    print("Error: La clave no existe en el diccionario.")',
+                explanation: 'Intentar acceder a una clave no existente en un diccionario usando corchetes `[]` lanza un `KeyError`. El bloque `except` lo captura.'
+            },
+            {
+                id: 'err-014', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Utiliza `assert` para verificar que un número es positivo. Si no lo es, imprime un mensaje de error.',
+                solution: 'def procesar_positivo(numero):\n    assert numero > 0, "El número debe ser positivo."\n    print(f"Procesando número positivo: {numero}")\n\nprocesar_positivo(5)\ntry:\n    procesar_positivo(-1)\nexcept AssertionError as e:\n    print(f"Error de aserción: {e}")',
+                explanation: 'La instrucción `assert` se utiliza para depuración. Si la condición es falsa, lanza un `AssertionError` con el mensaje proporcionado.'
+            },
+            {
+                id: 'err-015', category: 'Manejo de Errores', type: 'non-mathematical',
+                question: 'Crea un contexto con `with open(...)` para asegurar que un archivo se cierre correctamente, incluso si hay un error durante la escritura.',
+                solution: 'try:\n    with open("mi_archivo.txt", "w") as f:\n        f.write("Primera línea\\n")\n        # Simula un error\n        # 1 / 0\n        f.write("Segunda línea")\nexcept ZeroDivisionError:\n    print("Error durante la escritura del archivo.")\nprint("El archivo se cerró automáticamente.")',
+                explanation: 'El uso de `with open(...)` garantiza que el archivo se cierre automáticamente cuando el bloque `with` se completa, incluso si ocurre una excepción.'
+            },
 
-        <!-- Sección de Estructuras de Control -->
-        <section id="estructuras-control" class="bg-white p-8 rounded-xl shadow-md mb-8 lesson-section">
-            <h2 class="text-3xl font-bold text-blue-700 mb-6">2. Estructuras de Control</h2>
-            <p class="text-lg leading-relaxed mb-4">
-                Las estructuras de control permiten controlar el flujo de ejecución de tu programa, tomando decisiones o repitiendo bloques de código.
-            </p>
+            // Clases y Objetos
+            {
+                id: 'class-001', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Perro` con un método `ladrar()` que imprima "Guau!". Crea una instancia y llama al método.',
+                solution: 'class Perro:\n    def ladrar(self):\n        print("Guau!")\n\nmi_perro = Perro()\nmi_perro.ladrar()',
+                explanation: 'Las clases se definen con `class`. Los métodos de instancia toman `self` como primer argumento. Se crea una instancia llamando a la clase como una función.'
+            },
+            {
+                id: 'class-002', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Coche` con un constructor `__init__` que acepte `marca` y `modelo`. Crea una instancia y accede a sus atributos.',
+                solution: 'class Coche:\n    def __init__(self, marca, modelo):\n        self.marca = marca\n        self.modelo = modelo\n\nmi_coche = Coche("Toyota", "Corolla")\nprint(f"Mi coche es un {mi_coche.marca} {mi_coche.modelo}")',
+                explanation: 'El método `__init__` es el constructor de la clase, se llama automáticamente al crear una nueva instancia. `self` se refiere a la instancia actual.'
+            },
+            {
+                id: 'class-003', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Añade un método `presentarse()` a la clase `Persona` que imprima "Hola, soy [nombre] y tengo [edad] años.".',
+                solution: 'class Persona:\n    def __init__(self, nombre, edad):\n        self.nombre = nombre\n        self.edad = edad\n\n    def presentarse(self):\n        print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")\n\npersona1 = Persona("Sofía", 22)\npersona1.presentarse()',
+                explanation: 'Los métodos de instancia pueden acceder a los atributos de la instancia utilizando `self.nombre_atributo`.'
+            },
+            {
+                id: 'class-004', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Libro` con atributos `titulo` y `autor`. Crea un método para mostrar la información del libro.',
+                solution: 'class Libro:\n    def __init__(self, titulo, autor):\n        self.titulo = titulo\n        self.autor = autor\n\n    def mostrar_info(self):\n        print(f"Título: {self.titulo}, Autor: {self.autor}")\n\nlibro1 = Libro("El Principito", "Antoine de Saint-Exupéry")\nlibro1.mostrar_info()',
+                explanation: 'Similar a los ejercicios anteriores, se definen atributos en el constructor y un método para presentarlos.'
+            },
+            {
+                id: 'class-005', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Contador` con un atributo de clase `instancias_creadas` que cuente cuántas instancias de `Contador` se han creado.',
+                solution: 'class Contador:\n    instancias_creadas = 0 # Atributo de clase\n\n    def __init__(self):\n        Contador.instancias_creadas += 1\n\ncontador1 = Contador()\ncontador2 = Contador()\ncontador3 = Contador()\nprint(f"Instancias creadas: {Contador.instancias_creadas}")',
+                explanation: 'Los atributos de clase pertenecen a la clase misma y son compartidos por todas las instancias. Se acceden a través del nombre de la clase.'
+            },
+            {
+                id: 'class-006', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Animal` y una clase `Gato` que herede de `Animal`. `Gato` debe tener un método `maullar()`.',
+                solution: 'class Animal:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\n    def comer(self):\n        print(f"{self.nombre} está comiendo.")\n\nclass Gato(Animal):\n    def __init__(self, nombre, raza):\n        super().__init__(nombre)\n        self.raza = raza\n\n    def maullar(self):\n        print(f"{self.nombre} dice: ¡Miau!")\n\nmi_gato = Gato("Whiskers", "Siamés")\nmi_gato.comer()\nmi_gato.maullar()',
+                explanation: 'La herencia se indica con `class Gato(Animal):`. `super().__init__(nombre)` llama al constructor de la clase padre para inicializar sus atributos.'
+            },
+            {
+                id: 'class-007', category: 'Clases y Objetos', type: 'mathematical',
+                question: 'Define una clase `Punto` con atributos `x` e `y`. Añade un método `distancia_origen()` que calcule la distancia al origen (0,0) usando el teorema de Pitágoras ($$\\sqrt{x^2 + y^2}$$).',
+                solution: 'import math\n\nclass Punto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def distancia_origen(self):\n        return math.sqrt(self.x**2 + self.y**2)\n\npunto1 = Punto(3, 4)\nprint(f"Distancia al origen: {punto1.distancia_origen():.2f}")',
+                explanation: 'El método utiliza `math.sqrt()` para calcular la raíz cuadrada y `**2` para elevar al cuadrado los atributos `x` e `y`.'
+            },
+            {
+                id: 'class-008', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Rectangulo` con un método `area()` y un método `perimetro()`.',
+                solution: 'class Rectangulo:\n    def __init__(self, ancho, alto):\n        self.ancho = ancho\n        self.alto = alto\n\n    def area(self):\n        return self.ancho * self.alto\n\n    def perimetro(self):\n        return 2 * (self.ancho + self.alto)\n\nrect = Rectangulo(5, 10)\nprint(f"Área: {rect.area()}, Perímetro: {rect.perimetro()}")',
+                explanation: 'Los métodos `area()` y `perimetro()` acceden a los atributos de la instancia (`self.ancho`, `self.alto`) para realizar los cálculos.'
+            },
+            {
+                id: 'class-009', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Implementa el método especial `__str__` en una clase `Producto` para que al imprimir un objeto, muestre "Producto: [nombre], Precio: [precio]".',
+                solution: 'class Producto:\n    def __init__(self, nombre, precio):\n        self.nombre = nombre\n        self.precio = precio\n\n    def __str__(self):\n        return f"Producto: {self.nombre}, Precio: {self.precio:.2f}"\n\nproducto1 = Producto("Laptop", 1200.50)\nprint(producto1)',
+                explanation: 'El método `__str__` define la representación de cadena "informal" de un objeto, que se usa cuando se imprime el objeto con `print()` o `str()`.'
+            },
+            {
+                id: 'class-010', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Crea una clase `Banco` con un método de clase `obtener_tasa_interes()` que devuelva una tasa fija para todos los clientes (por ejemplo, 0.05).',
+                solution: 'class Banco:\n    tasa_interes_base = 0.05 # Atributo de clase\n\n    @classmethod\n    def obtener_tasa_interes(cls):\n        return cls.tasa_interes_base\n\nprint(f"Tasa de interés del banco: {Banco.obtener_tasa_interes()}")',
+                explanation: 'Los métodos de clase se definen con el decorador `@classmethod` y reciben `cls` (la clase misma) como primer argumento, permitiendo acceder a atributos de clase.'
+            },
+            {
+                id: 'class-011', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Usuario` con atributos `nombre` y `email`. Añade un método `validar_email()` que devuelva `True` si el email contiene "@" y ".".',
+                solution: 'class Usuario:\n    def __init__(self, nombre, email):\n        self.nombre = nombre\n        self.email = email\n\n    def validar_email(self):\n        return "@" in self.email and "." in self.email\n\nusuario1 = Usuario("Pablo", "pablo@ejemplo.com")\nusuario2 = Usuario("Laura", "lauraejemplo.com")\nprint(f"Email válido para Pablo: {usuario1.validar_email()}")\nprint(f"Email válido para Laura: {usuario2.validar_email()}")',
+                explanation: 'El método `validar_email` utiliza el operador `in` para verificar la presencia de subcadenas específicas en el atributo `email`.'
+            },
+            {
+                id: 'class-012', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Crea una clase `CuentaBancaria` con métodos `depositar(cantidad)` y `retirar(cantidad)`. Asegúrate de que no se pueda retirar más de lo que hay en el saldo.',
+                solution: 'class CuentaBancaria:\n    def __init__(self, saldo_inicial=0):\n        self.saldo = saldo_inicial\n\n    def depositar(self, cantidad):\n        if cantidad > 0:\n            self.saldo += cantidad\n            print(f"Depósito de {cantidad}. Nuevo saldo: {self.saldo}")\n        else:\n            print("La cantidad a depositar debe ser positiva.")\n\n    def retirar(self, cantidad):\n        if 0 < cantidad <= self.saldo:\n            self.saldo -= cantidad\n            print(f"Retiro de {cantidad}. Nuevo saldo: {self.saldo}")\n        elif cantidad <= 0:\n            print("La cantidad a retirar debe ser positiva.")\n        else:\n            print("Fondos insuficientes.")\n\nmi_cuenta = CuentaBancaria(100)\nmi_cuenta.depositar(50)\nmi_cuenta.retirar(30)\nmi_cuenta.retirar(150)',
+                explanation: 'Los métodos `depositar` y `retirar` modifican el atributo `self.saldo`. El método `retirar` incluye lógica condicional para evitar retiros inválidos.'
+            },
+            {
+                id: 'class-013', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Define una clase `Estudiante` que herede de `Persona` (ejercicio anterior). `Estudiante` debe tener un atributo `curso` y un método `estudiar()` que imprima "Estudiando [curso]".',
+                solution: 'class Persona:\n    def __init__(self, nombre, edad):\n        self.nombre = nombre\n        self.edad = edad\n\n    def presentarse(self):\n        print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")\n\nclass Estudiante(Persona):\n    def __init__(self, nombre, edad, curso):\n        super().__init__(nombre, edad)\n        self.curso = curso\n\n    def estudiar(self):\n        print(f"{self.nombre} está estudiando {self.curso}.")\n\nestudiante1 = Estudiante("Diego", 20, "Programación")\nestudiante1.presentarse()\nestudiante1.estudiar()',
+                explanation: 'La clase `Estudiante` hereda los atributos y métodos de `Persona`. Su constructor llama al constructor de la clase padre con `super()` y añade su propio atributo `curso`.'
+            },
+            {
+                id: 'class-014', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Crea una clase `Forma` con un método abstracto `area()` (que debe ser implementado por subclases). Luego, crea una subclase `Circulo` que implemente `area()`.',
+                solution: 'from abc import ABC, abstractmethod\nimport math\n\nclass Forma(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n\nclass Circulo(Forma):\n    def __init__(self, radio):\n        self.radio = radio\n\n    def area(self):\n        return math.pi * (self.radio ** 2)\n\n# forma_generica = Forma() # Esto daría un TypeError\ncirculo1 = Circulo(5)\nprint(f"Área del círculo: {circulo1.area():.2f}")',
+                explanation: 'Las clases abstractas y los métodos abstractos (usando `ABC` y `@abstractmethod` del módulo `abc`) fuerzan a las subclases a implementar ciertos métodos. `Circulo` implementa `area()`.'
+            },
+            {
+                id: 'class-015', category: 'Clases y Objetos', type: 'non-mathematical',
+                question: 'Añade un decorador `@property` a un método `temperatura_celsius` en una clase `Termometro` que almacene la temperatura en Fahrenheit y la convierta a Celsius al acceder.',
+                solution: 'class Termometro:\n    def __init__(self, temp_fahrenheit):\n        self._temp_fahrenheit = temp_fahrenheit # Atributo "privado"\n\n    @property\n    def temperatura_celsius(self):\n        return (self._temp_fahrenheit - 32) * 5/9\n\n    @temperatura_celsius.setter\n    def temperatura_celsius(self, temp_celsius):\n        self._temp_fahrenheit = (temp_celsius * 9/5) + 32\n\nterm = Termometro(68) # 68 F = 20 C\nprint(f"Temperatura en Celsius: {term.temperatura_celsius:.2f}")\nterm.temperatura_celsius = 25 # Setear en Celsius\nprint(f"Nueva temperatura en Fahrenheit: {term._temp_fahrenheit:.2f}")',
+                explanation: 'El decorador `@property` permite acceder a un método como si fuera un atributo. Se usa un atributo "privado" (`_temp_fahrenheit`) para almacenar el valor real. El `@setter` permite asignar un valor a la propiedad.'
+            },
 
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Condicionales: <code>if</code>, <code>else if</code>, <code>else</code></h3>
-            <p class="text-lg leading-relaxed mb-4">
-                Permiten ejecutar código basado en una condición.
-            </p>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
+            // Manejo de Archivos
+            {
+                id: 'file-001', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Crea un archivo llamado `saludo.txt` y escribe la línea "Hola, archivo!".',
+                solution: '# Para ejecutar este código, asegúrate de tener permisos de escritura en el directorio.\nwith open("saludo.txt", "w") as f:\n    f.write("Hola, archivo!")\nprint("Archivo \'saludo.txt\' creado y escrito.")',
+                explanation: 'El modo `w` abre el archivo para escritura (creándolo si no existe o sobreescribiéndolo si sí). `with` asegura que el archivo se cierre automáticamente.'
+            },
+            {
+                id: 'file-002', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Lee el contenido completo del archivo `saludo.txt` (asumiendo que existe) e imprímelo.',
+                solution: '# Asegúrate de que \'saludo.txt\' exista en el mismo directorio.\ntry:\n    with open("saludo.txt", "r") as f:\n        contenido = f.read()\n        print(f"Contenido de saludo.txt:\\n{contenido}")\nexcept FileNotFoundError:\n    print("Error: El archivo \'saludo.txt\' no fue encontrado. Ejecuta el ejercicio anterior primero.")',
+                explanation: 'El modo `r` abre el archivo para lectura. `f.read()` lee todo el contenido del archivo como una sola cadena.'
+            },
+            {
+                id: 'file-003', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Añade una nueva línea "Esta es una nueva línea." al archivo `saludo.txt` sin borrar el contenido existente.',
+                solution: '# Asegúrate de que \'saludo.txt\' exista.\nwith open("saludo.txt", "a") as f:\n    f.write("\\nEsta es una nueva línea.")\nprint("Nueva línea añadida a \'saludo.txt\'.")',
+                explanation: 'El modo `a` (append) abre el archivo para escritura, añadiendo el nuevo contenido al final sin truncar el archivo.'
+            },
+            {
+                id: 'file-004', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Lee el archivo `saludo.txt` línea por línea e imprime cada línea.',
+                solution: '# Asegúrate de que \'saludo.txt\' exista.\ntry:\n    with open("saludo.txt", "r") as f:\n        for linea in f:\n            print(linea.strip()) # .strip() para eliminar saltos de línea extra\nexcept FileNotFoundError:\n    print("Error: El archivo \'saludo.txt\' no fue encontrado.")',
+                explanation: 'Iterar directamente sobre un objeto de archivo (`for linea in f:`) lee el archivo línea por línea de manera eficiente. `strip()` elimina los caracteres de espacio en blanco, incluyendo los saltos de línea.'
+            },
+            {
+                id: 'file-005', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Crea un archivo CSV llamado `datos.csv` y escribe algunas filas de datos (por ejemplo, nombre, edad).',
+                solution: 'import csv\n\n# Para ejecutar este código, asegúrate de tener permisos de escritura.\nwith open("datos.csv", "w", newline=\'\') as csvfile:\n    writer = csv.writer(csvfile)\n    writer.writerow(["Nombre", "Edad"])\n    writer.writerow(["Alice", 30])\n    writer.writerow(["Bob", 24])\nprint("Archivo \'datos.csv\' creado y escrito.")',
+                explanation: 'El módulo `csv` facilita la lectura y escritura de archivos CSV. `newline=\'\'` es importante para evitar líneas en blanco adicionales en Windows.'
+            },
+            {
+                id: 'file-006', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Lee el archivo `datos.csv` (asumiendo que existe) e imprime cada fila como una lista.',
+                solution: 'import csv\n\n# Asegúrate de que \'datos.csv\' exista.\ntry:\n    with open("datos.csv", "r", newline=\'\') as csvfile:\n        reader = csv.reader(csvfile)\n        for row in reader:\n            print(row)\nexcept FileNotFoundError:\n    print("Error: El archivo \'datos.csv\' no fue encontrado. Ejecuta el ejercicio anterior primero.")',
+                explanation: 'El `csv.reader` itera sobre las líneas del archivo CSV y las devuelve como listas de cadenas.'
+            },
+            {
+                id: 'file-007', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Escribe un diccionario en un archivo JSON llamado `config.json`.',
+                solution: 'import json\n\nconfig_data = {\n    "tema": "oscuro",\n    "idioma": "es",\n    "notificaciones": True\n}\n\n# Para ejecutar este código, asegúrate de tener permisos de escritura.\nwith open("config.json", "w") as jsonfile:\n    json.dump(config_data, jsonfile, indent=4)\nprint("Archivo \'config.json\' creado y escrito.")',
+                explanation: 'El módulo `json` permite serializar objetos Python a formato JSON. `json.dump()` escribe el objeto directamente a un archivo. `indent=4` formatea el JSON para que sea legible.'
+            },
+            {
+                id: 'file-008', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Lee el archivo `config.json` (asumiendo que existe) y carga su contenido en un diccionario de Python.',
+                solution: 'import json\n\n# Asegúrate de que \'config.json\' exista.\ntry:\n    with open("config.json", "r") as jsonfile:\n        config_data_loaded = json.load(jsonfile)\n        print(f"Configuración cargada: {config_data_loaded}")\nexcept FileNotFoundError:\n    print("Error: El archivo \'config.json\' no fue encontrado. Ejecuta el ejercicio anterior primero.")',
+                explanation: 'La función `json.load()` lee un documento JSON de un objeto tipo archivo y lo deserializa a un objeto Python.'
+            },
+            {
+                id: 'file-009', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Crea un archivo temporal y escribe algo en él, luego léelo y asegúrate de que se limpie al final.',
+                solution: 'import tempfile\n\n# Crear un archivo temporal\nwith tempfile.TemporaryFile(mode=\'w+\', encoding=\'utf-8\') as fp:\n    fp.write("Datos temporales.\\n")\n    fp.write("Otra línea.\\n")\n    \n    fp.seek(0) # Mover el puntero al inicio para leer\n    contenido = fp.read()\n    print(f"Contenido del archivo temporal:\\n{contenido}")\n\n# El archivo temporal se cierra y elimina automáticamente al salir del bloque \'with\'\nprint("Archivo temporal procesado y eliminado.")',
+                explanation: 'El módulo `tempfile` proporciona funciones para crear archivos y directorios temporales de forma segura. `TemporaryFile` asegura que el archivo se elimine automáticamente al cerrarse.'
+            },
+            {
+                id: 'file-010', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Lista todos los archivos y directorios en el directorio actual.',
+                solution: 'import os\n\ncontenido_directorio = os.listdir(\'.\')\nprint("Contenido del directorio actual:")\nfor item in contenido_directorio:\n    print(item)',
+                explanation: 'El módulo `os` proporciona funciones para interactuar con el sistema operativo. `os.listdir()` devuelve una lista de los nombres de las entradas en el directorio dado.'
+            },
+            {
+                id: 'file-011', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Verifica si un archivo llamado `existente.txt` existe en el directorio actual.',
+                solution: 'import os\n\n# Crea un archivo temporal para la prueba\nwith open("existente.txt", "w") as f:\n    f.write("Este archivo existe.")\n\nnombre_archivo = "existente.txt"\nif os.path.exists(nombre_archivo):\n    print(f"El archivo \'{nombre_archivo}\' existe.")\nelse:\n    print(f"El archivo \'{nombre_archivo}\' NO existe.")\n\n# Limpia el archivo temporal\nos.remove("existente.txt")',
+                explanation: '`os.path.exists()` devuelve `True` si la ruta especificada existe, ya sea un archivo o un directorio.'
+            },
+            {
+                id: 'file-012', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Crea un nuevo directorio llamado `mi_carpeta`.',
+                solution: 'import os\n\nnombre_carpeta = "mi_carpeta"\nif not os.path.exists(nombre_carpeta):\n    os.makedirs(nombre_carpeta) # o os.mkdir(nombre_carpeta)\n    print(f"Directorio \'{nombre_carpeta}\' creado.")\nelse:\n    print(f"El directorio \'{nombre_carpeta}\' ya existe.")',
+                explanation: '`os.makedirs()` crea directorios recursivamente (crea directorios intermedios si no existen). `os.mkdir()` crea solo el último directorio.'
+            },
+            {
+                id: 'file-013', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Elimina un archivo llamado `archivo_a_borrar.txt`.',
+                solution: 'import os\n\n# Crea un archivo temporal para la prueba\nwith open("archivo_a_borrar.txt", "w") as f:\n    f.write("Borrarme.")\n\nnombre_archivo = "archivo_a_borrar.txt"\nif os.path.exists(nombre_archivo):\n    os.remove(nombre_archivo)\n    print(f"Archivo \'{nombre_archivo}\' eliminado.")\nelse:\n    print(f"El archivo \'{nombre_archivo}\' no existe para ser eliminado.")',
+                explanation: 'La función `os.remove()` elimina un archivo. Es buena práctica verificar si el archivo existe antes de intentar eliminarlo.'
+            },
+            {
+                id: 'file-014', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Renombra un archivo de `viejo_nombre.txt` a `nuevo_nombre.txt`.',
+                solution: 'import os\n\n# Crea un archivo temporal para la prueba\nwith open("viejo_nombre.txt", "w") as f:\n    f.write("Contenido de prueba.")\n\nviejo_nombre = "viejo_nombre.txt"\nnuevo_nombre = "nuevo_nombre.txt"\n\nif os.path.exists(viejo_nombre):\n    os.rename(viejo_nombre, nuevo_nombre)\n    print(f"Archivo renombrado de \'{viejo_nombre}\' a \'{nuevo_nombre}\'.")\nelse:\n    print(f"El archivo \'{viejo_nombre}\' no existe para ser renombrado.")\n\n# Limpia el archivo temporal (con el nuevo nombre)\nif os.path.exists(nuevo_nombre):\n    os.remove(nuevo_nombre)',
+                explanation: 'La función `os.rename()` renombra un archivo o directorio de una ruta a otra.'
+            },
+            {
+                id: 'file-015', category: 'Manejo de Archivos', type: 'non-mathematical',
+                question: 'Obtén la ruta absoluta del archivo actual (`.py`).',
+                solution: 'import os\n\nruta_absoluta = os.path.abspath(__file__)\nprint(f"La ruta absoluta de este script es: {ruta_absoluta}")',
+                explanation: '`__file__` es una variable especial en Python que contiene la ruta al archivo del script actual. `os.path.abspath()` convierte una ruta relativa en una ruta absoluta.'
+            },
 
-int main() {
-    int numero = 10;
+            // Matemáticas (Adicionales)
+            {
+                id: 'math-001', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el valor absoluto de -15 usando `abs()`.',
+                solution: 'numero = -15\nvalor_absoluto = abs(numero)\nprint(f"El valor absoluto de {numero} es: {valor_absoluto}")',
+                explanation: 'La función `abs()` devuelve el valor absoluto de un número (su magnitud sin signo).'
+            },
+            {
+                id: 'math-002', category: 'Matemáticas', type: 'mathematical',
+                question: 'Redondea el número 3.7 a su entero más cercano.',
+                solution: 'numero = 3.7\nredondeado = round(numero)\nprint(f"El número {numero} redondeado es: {redondeado}")',
+                explanation: 'La función `round()` redondea un número al entero más cercano. Si la fracción es .5, redondea al número par más cercano.'
+            },
+            {
+                id: 'math-003', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula la raíz cuadrada de 81 usando `math.sqrt()`.',
+                solution: 'import math\nnumero = 81\nraiz_cuadrada = math.sqrt(numero)\nprint(f"La raíz cuadrada de {numero} es: {raiz_cuadrada}")',
+                explanation: 'La función `math.sqrt()` del módulo `math` calcula la raíz cuadrada de un número.'
+            },
+            {
+                id: 'math-004', category: 'Matemáticas', type: 'mathematical',
+                question: 'Genera un número entero aleatorio entre 1 y 10 (ambos incluidos).',
+                solution: 'import random\nnumero_aleatorio = random.randint(1, 10)\nprint(f"Número aleatorio: {numero_aleatorio}")',
+                explanation: 'La función `random.randint(a, b)` devuelve un entero aleatorio `N` tal que `a <= N <= b`.'
+            },
+            {
+                id: 'math-005', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el logaritmo natural (base e) de 10 usando `math.log()`.',
+                solution: 'import math\nnumero = 10\nlog_natural = math.log(numero)\nprint(f"El logaritmo natural de {numero} es: {log_natural:.2f}")',
+                explanation: 'La función `math.log(x)` calcula el logaritmo natural de `x`. `math.log(x, base)` permite especificar una base diferente.'
+            },
+            {
+                id: 'math-006', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el coseno de $$\\pi/2$$ radianes usando `math.cos()` y `math.pi`.',
+                solution: 'import math\nangulo_radianes = math.pi / 2\ncoseno = math.cos(angulo_radianes)\nprint(f"El coseno de pi/2 es: {coseno:.2f}")',
+                explanation: 'Las funciones trigonométricas en el módulo `math` trabajan con ángulos en radianes.'
+            },
+            {
+                id: 'math-007', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el máximo común divisor (GCD) de 48 y 18.',
+                solution: 'import math\nnum1 = 48\nnum2 = 18\ngcd_val = math.gcd(num1, num2)\nprint(f"El MCD de {num1} y {num2} es: {gcd_val}")',
+                explanation: 'La función `math.gcd()` calcula el máximo común divisor de dos enteros.'
+            },
+            {
+                id: 'math-008', category: 'Matemáticas', type: 'mathematical',
+                question: 'Genera una lista de 5 números flotantes aleatorios entre 0.0 y 1.0.',
+                solution: 'import random\nrandom_floats = [random.random() for _ in range(5)]\nprint(f"Números flotantes aleatorios: {random_floats}")',
+                explanation: 'La función `random.random()` devuelve un flotante aleatorio en el rango `[0.0, 1.0)`. Se usa una lista por comprensión para generar múltiples valores.'
+            },
+            {
+                id: 'math-009', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el valor de $$e^x$$ donde $$x = 2$$ usando `math.exp()`.',
+                solution: 'import math\nx = 2\nexp_x = math.exp(x)\nprint(f"e^{x} es: {exp_x:.2f}")',
+                explanation: 'La función `math.exp(x)` devuelve $e^x$, donde `e` es la base del logaritmo natural.'
+            },
+            {
+                id: 'math-010', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el valor de 2 elevado a la potencia de 3 usando `pow()`.',
+                solution: 'base = 2\nexponente = 3\nresultado = pow(base, exponente)\nprint(f"{base} elevado a la {exponente} es: {resultado}")',
+                explanation: 'La función incorporada `pow(base, exponente)` calcula `base` elevada a la `exponente`.'
+            },
+            {
+                id: 'math-011', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el seno de 90 grados. (Recuerda convertir grados a radianes: $$\\text{radianes} = \\text{grados} \\times \\frac{\\pi}{180}$$).',
+                solution: 'import math\ngrados = 90\nradianes = math.radians(grados)\nseno = math.sin(radianes)\nprint(f"El seno de {grados} grados es: {seno:.2f}")',
+                explanation: 'Las funciones trigonométricas de `math` esperan radianes. `math.radians()` convierte grados a radianes.'
+            },
+            {
+                id: 'math-012', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el logaritmo en base 10 de 1000.',
+                solution: 'import math\nnumero = 1000\nlog_base_10 = math.log10(numero)\nprint(f"El logaritmo en base 10 de {numero} es: {log_base_10:.0f}")',
+                explanation: 'La función `math.log10()` calcula el logaritmo en base 10 de un número.'
+            },
+            {
+                id: 'math-013', category: 'Matemáticas', type: 'mathematical',
+                question: 'Redondea el número 5.876 a dos decimales.',
+                solution: 'numero = 5.876\nredondeado = round(numero, 2)\nprint(f"El número {numero} redondeado a dos decimales es: {redondeado}")',
+                explanation: 'La función `round()` puede tomar un segundo argumento para especificar el número de decimales a redondear.'
+            },
+            {
+                id: 'math-014', category: 'Matemáticas', type: 'mathematical',
+                question: 'Calcula el resto de la división de 17 entre 5.',
+                solution: 'dividendo = 17\ndivisor = 5\nresto = dividendo % divisor\nprint(f"El resto de la división de {dividendo} entre {divisor} es: {resto}")',
+                explanation: 'El operador `%` (módulo) devuelve el resto de la división entera.'
+            },
+            {
+                id: 'math-015', category: 'Matemáticas', type: 'mathematical',
+                question: 'Genera una elección aleatoria de un elemento de la lista `opciones = ["piedra", "papel", "tijera"]`.',
+                solution: 'import random\nopciones = ["piedra", "papel", "tijera"]\neleccion_aleatoria = random.choice(opciones)\nprint(f"Elección aleatoria: {eleccion_aleatoria}")',
+                explanation: 'La función `random.choice()` devuelve un elemento aleatorio de una secuencia no vacía.'
+            }
+        ];
 
-    if (numero &gt; 0) {
-        std::cout &lt;&lt; "El número es positivo." &lt;&lt; std::endl;
-    } else if (numero &lt; 0) {
-        std::cout &lt;&lt; "El número es negativo." &lt;&lt; std::endl;
-    } else {
-        std::cout &lt;&lt; "El número es cero." &lt;&lt; std::endl;
-    }
+        // --- Lógica de la interfaz ---
+        const categorySelect = document.getElementById('category-select');
+        const typeButtons = document.querySelectorAll('.filter-button[data-type]');
+        const applyFiltersButton = document.getElementById('apply-filters');
+        const exercisesContainer = document.getElementById('exercises-container');
 
-    return 0;
-}
-</code></pre>
+        let currentCategory = 'all';
+        let currentType = 'all';
 
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4 mt-8">Bucles: <code>for</code>, <code>while</code>, <code>do-while</code></h3>
-            <p class="text-lg leading-relaxed mb-4">
-                Los bucles se utilizan para repetir un bloque de código varias veces.
-            </p>
-            <h4 class="text-xl font-medium text-gray-600 mb-2">Bucle <code>for</code></h4>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-
-int main() {
-    for (int i = 0; i &lt; 5; ++i) {
-        std::cout &lt;&lt; "Iteración for: " &lt;&lt; i &lt;&lt; std::endl;
-    }
-    return 0;
-}
-</code></pre>
-            <h4 class="text-xl font-medium text-gray-600 mb-2 mt-4">Bucle <code>while</code></h4>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-
-int main() {
-    int contador = 0;
-    while (contador &lt; 3) {
-        std::cout &lt;&lt; "Iteración while: " &lt;&lt; contador &lt;&lt; std::endl;
-        contador++;
-    }
-    return 0;
-}
-</code></pre>
-        </section>
-
-        <!-- Sección de Funciones -->
-        <section id="funciones" class="bg-white p-8 rounded-xl shadow-md mb-8 lesson-section">
-            <h2 class="text-3xl font-bold text-blue-700 mb-6">3. Funciones</h2>
-            <p class="text-lg leading-relaxed mb-4">
-                Las funciones son bloques de código reutilizables que realizan una tarea específica. Ayudan a organizar el código y evitar la repetición.
-            </p>
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Definición y Llamada a Funciones</h3>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-
-// Declaración de la función (prototipo)
-void saludar(std::string nombre);
-int sumar(int a, int b);
-
-int main() {
-    saludar("Ana"); // Llamada a la función
-    int resultado = sumar(5, 3); // Llamada a la función y almacenamiento del resultado
-    std::cout &lt;&lt; "La suma es: " &lt;&lt; resultado &lt;&lt; std::endl;
-    return 0;
-}
-
-// Definición de la función
-void saludar(std::string nombre) {
-    std::cout &lt;&lt; "Hola, " &lt;&lt; nombre &lt;&lt; "!" &lt;&lt; std::endl;
-}
-
-// Definición de la función
-int sumar(int a, int b) {
-    return a + b;
-}
-</code></pre>
-        </section>
-
-        <!-- Sección de Programación Orientada a Objetos (POO) -->
-        <section id="programacion-orientada-objetos" class="bg-white p-8 rounded-xl shadow-md mb-8 lesson-section">
-            <h2 class="text-3xl font-bold text-blue-700 mb-6">4. Programación Orientada a Objetos (POO)</h2>
-            <p class="text-lg leading-relaxed mb-4">
-                La POO es un paradigma de programación que se basa en el concepto de "objetos", que pueden contener datos y código. Los pilares de la POO son: encapsulamiento, herencia y polimorfismo.
-            </p>
-
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Clases y Objetos</h3>
-            <p class="text-lg leading-relaxed mb-4">
-                Una <strong>clase</strong> es un plano o plantilla para crear objetos, mientras que un <strong>objeto</strong> es una instancia de una clase.
-            </p>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-// Definición de la clase Persona
-class Persona {
-public: // Miembros públicos (accesibles desde fuera de la clase)
-    std::string nombre;
-    int edad;
-
-    // Constructor (método especial para inicializar objetos)
-    Persona(std::string n, int e) {
-        nombre = n;
-        edad = e;
-    }
-
-    // Método de la clase
-    void presentarse() {
-        std::cout &lt;&lt; "Hola, mi nombre es " &lt;&lt; nombre &lt;&lt; " y tengo " &lt;&lt; edad &lt;&lt; " años." &lt;&lt; std::endl;
-    }
-};
-
-int main() {
-    // Creación de objetos (instancias de la clase Persona)
-    Persona persona1("Carlos", 25);
-    Persona persona2("Maria", 30);
-
-    // Llamada a métodos de los objetos
-    persona1.presentarse();
-    persona2.presentarse();
-
-    return 0;
-}
-</code></pre>
-            <h3 class="text-2xl font-semibold text-gray-700 mb-4 mt-8">Encapsulamiento</h3>
-            <p class="text-lg leading-relaxed mb-4">
-                El encapsulamiento consiste en ocultar los detalles internos de un objeto y exponer solo lo necesario a través de una interfaz pública. Se logra usando modificadores de acceso como <code>private</code> y <code>public</code>.
-            </p>
-            <pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class CuentaBancaria {
-private: // Miembros privados (solo accesibles desde dentro de la clase)
-    double saldo;
-
-public: // Miembros públicos
-    std::string titular;
-
-    CuentaBancaria(std::string t, double s) {
-        titular = t;
-        saldo = s;
-    }
-
-    // Método público para depositar dinero
-    void depositar(double cantidad) {
-        if (cantidad &gt; 0) {
-            saldo += cantidad;
-            std::cout &lt;&lt; "Depósito de " &lt;&lt; cantidad &lt;&lt; ". Nuevo saldo: " &lt;&lt; saldo << std::endl;
-        } else {
-            std::cout &lt;&lt; "La cantidad a depositar debe ser positiva." &lt;&lt; std::endl;
+        // Populate categories dropdown
+        function populateCategories() {
+            const categories = [...new Set(exercises.map(ex => ex.category))].sort();
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
         }
-    }
 
-    // Método público para obtener el saldo (getter)
-    double getSaldo() {
-        return saldo;
-    }
-};
+        // Render exercises based on filters
+        function renderExercises() {
+            exercisesContainer.innerHTML = ''; // Clear previous exercises
 
-int main() {
-    CuentaBancaria miCuenta("Luis", 1000.0);
-    miCuenta.depositar(500.0);
-    // miCuenta.saldo = 2000.0; // Esto daría un error, saldo es privado
-    std::cout &lt;&lt; "Saldo actual: " &lt;&lt; miCuenta.getSaldo() &lt;&lt; std::endl;
-    return 0;
-}
-</code></pre>
-        </section>
+            const filteredExercises = exercises.filter(ex => {
+                const categoryMatch = currentCategory === 'all' || ex.category === currentCategory;
+                const typeMatch = currentType === 'all' || ex.type === currentType;
+                return categoryMatch && typeMatch;
+            });
 
-        <section class="bg-gray-200 p-6 rounded-xl text-center text-gray-700">
-            <p class="text-lg">¡Felicidades! Has completado las lecciones básicas de C++. Sigue practicando y explorando para dominar este poderoso lenguaje.</p>
-        </section>
-    </main>
+            if (filteredExercises.length === 0) {
+                exercisesContainer.innerHTML = '<p class="text-center text-gray-600 text-lg col-span-full">No hay ejercicios que coincidan con los filtros seleccionados.</p>';
+                return;
+            }
 
-    <!-- Pie de página -->
-    <footer class="bg-gray-800 text-white p-4 text-center mt-8 rounded-t-lg">
-        <p>&copy; 2025 Lecciones de C++. Todos los derechos reservados.</p>
-    </footer>
+            filteredExercises.forEach(ex => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${ex.category}</h3>
+                    <p class="text-gray-700 mb-4">${ex.question}</p>
+                    <button class="toggle-solution bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mr-2 transition-colors duration-200" data-id="${ex.id}">Mostrar Solución</button>
+                    <button class="toggle-explanation bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200" data-id="${ex.id}">Mostrar Explicación</button>
+                    <div id="solution-${ex.id}" class="code-block hidden">
+                        <pre>${ex.solution}</pre>
+                    </div>
+                    <div id="explanation-${ex.id}" class="explanation-block hidden">
+                        <p>${ex.explanation}</p>
+                    </div>
+                `;
+                exercisesContainer.appendChild(card);
+            });
+
+            // Add event listeners for toggle buttons
+            document.querySelectorAll('.toggle-solution').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const id = event.target.dataset.id;
+                    const solutionDiv = document.getElementById(`solution-${id}`);
+                    solutionDiv.classList.toggle('hidden');
+                    event.target.textContent = solutionDiv.classList.contains('hidden') ? 'Mostrar Solución' : 'Ocultar Solución';
+                });
+            });
+
+            document.querySelectorAll('.toggle-explanation').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const id = event.target.dataset.id;
+                    const explanationDiv = document.getElementById(`explanation-${id}`);
+                    explanationDiv.classList.toggle('hidden');
+                    event.target.textContent = explanationDiv.classList.contains('hidden') ? 'Mostrar Explicación' : 'Ocultar Explicación';
+                });
+            });
+        }
+
+        // Event Listeners for filters
+        categorySelect.addEventListener('change', (event) => {
+            currentCategory = event.target.value;
+        });
+
+        typeButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                typeButtons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                currentType = event.target.dataset.type;
+            });
+        });
+
+        applyFiltersButton.addEventListener('click', renderExercises);
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCategories();
+            renderExercises(); // Render all exercises initially
+        });
+    </script>
 </body>
 </html>
